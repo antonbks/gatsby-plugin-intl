@@ -8,6 +8,7 @@ const Link = ({ to, language, children, onClick, ...rest }) => (
     {intl => {
       const languageLink = language || intl.language
       const link = intl.routed || language ? `/${languageLink}${to}` : `${to}`
+      const pathPrefix = intl.pathPrefix || null
 
       const handleClick = e => {
         if (language) {
@@ -65,7 +66,7 @@ export const changeLocale = (language, to) => {
 
   const pathname = to || removeLocalePart(window.location.pathname)
   // TODO: check slash
-  const link = `/${language}${window.location.search}`
+  const link = pathPrefix === pathname ? `/${language}${window.location.search}` : `/${language}${pathname}${window.location.search}`
   localStorage.setItem("gatsby-intl-language", language)
   gatsbyNavigate(link)
 }
